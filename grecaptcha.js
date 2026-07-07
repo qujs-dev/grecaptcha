@@ -1,5 +1,5 @@
 ﻿/*!
- * GreCaptcha v1.0
+ * GreCaptcha v1.0.2
  * Google reCAPTCHA integration
  * 
  * @author Serge Galich <gaserge@mail.ru>
@@ -9,13 +9,13 @@
  * 
  * @requires Qu
  */
-(function(global) {
+(function (window, document) {
     'use strict';
     const LIB_NAME = 'GreCaptcha';
     const DATA_PREFIX = 'qu-grecaptcha';
 
-    if (global.Qu && global.Qu[LIB_NAME]) {
-        global.Qu.debug(`⚠️ [${LIB_NAME}] Already registered, skipping duplicate`);
+    if (window.Qu && window.Qu[LIB_NAME]) {
+        window.Qu.debug(`⚠️ [${LIB_NAME}] Already registered, skipping duplicate`);
         return;
     }
 
@@ -24,7 +24,7 @@
     const Module = {
         name: LIB_NAME,
         version: '1.0',
-        _debug: false, // by default true
+        _debug: false,
         _initOnce: false,
 
         _config: {
@@ -87,11 +87,11 @@
         },
 
         extend: function () {
-            if (Array.isArray(global[LIB_NAME + 'Extend'])) {
-              global[LIB_NAME + 'Extend'].forEach((fn) => {
+            if (Array.isArray(window[LIB_NAME + 'Extend'])) {
+              window[LIB_NAME + 'Extend'].forEach((fn) => {
                 this.use(fn);
               });
-              global[LIB_NAME + 'Extend'] = [];
+              window[LIB_NAME + 'Extend'] = [];
             }
         },
 
@@ -269,7 +269,7 @@
                 if (submitBtn) submitBtn.disabled = true;
                 
                 if (options.loader) {
-                    this._Qu.loading(true, form);
+                    _this._Qu.loading(true, form);
                 }
             
                 try {
@@ -288,7 +288,7 @@
                     if (submitBtn) submitBtn.disabled = false;
                     
                     if (options.loader) {
-                        this._Qu.loading(false, form);
+                        _this._Qu.loading(false, form);
                     }
                     
                     if (options.onError) {
@@ -311,11 +311,11 @@
         }
     };
     
-    if (global.Qu) {
-        global.Qu.lib(LIB_NAME, Module);
+    if (window.Qu) {
+        window.Qu.lib(LIB_NAME, Module);
     } else {
-        global._QuLibs = global._QuLibs || [];
-        global._QuLibs.push({ name: LIB_NAME, instance: Module });
+        window._QuLibs = window._QuLibs || [];
+        window._QuLibs.push({ name: LIB_NAME, instance: Module });
     }
 
-})(typeof window !== 'undefined' ? window : global);
+})(window, document);
