@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * GreCaptcha v1.0.3
  * Google reCAPTCHA integration
  * 
